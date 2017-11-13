@@ -1,1 +1,1 @@
-# apijuegotextual
+#Libreria para crear juegos textuales, cuentos interactivos. Desarrollada en java, utiliza Hibernate para acceder a una base de dato MySql. Las historias o juegos se pueden cargar desde archivo de scrip y grabadas en la base de dato.
