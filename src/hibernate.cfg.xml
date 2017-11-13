@@ -45,6 +45,12 @@ Contributor(s):
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/basedato?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">1234</property>
     <mapping class="" file="" jar="" package="" resource="entidad/Historia.hbm.xml"/>
+    <mapping resource="entidad/Mensaje.hbm.xml"/>
+    <mapping resource="entidad/TextoMensaje.hbm.xml"/>
+    <mapping resource="entidad/Comando.hbm.xml"/>
+    <mapping resource="entidad/TextoComando.hbm.xml"/>
+    <mapping resource="entidad/Tarea.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

@@ -11,9 +11,9 @@ package entidad;
  */
 public class TextoComando implements java.io.Serializable{
     private Integer idTextoComando;
-    private Integer idIdioma;
     private Integer idComando;
-    private String textoComando;
+    private Integer idIdioma;
+    private String textoComando;//lengh 64
 
     public TextoComando() {
     }
@@ -34,6 +34,7 @@ public class TextoComando implements java.io.Serializable{
         this.idIdioma = idIdioma;
     }
 
+    
     public Integer getIdComando() {
         return idComando;
     }
@@ -41,6 +42,7 @@ public class TextoComando implements java.io.Serializable{
     public void setIdComando(Integer idComando) {
         this.idComando = idComando;
     }
+    
 
     public String getTextoComando() {
         return textoComando;

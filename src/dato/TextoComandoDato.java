@@ -6,7 +6,12 @@
 package dato;
 
 import entidad.TextoComando;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 /**
  *
@@ -15,12 +20,42 @@ import java.util.ArrayList;
 public class TextoComandoDato {
     
     public Integer insertarTextoComando(TextoComando textoComando) {
-        Integer idTextoComando = -1;
-        return idTextoComando;
+        return save(textoComando);
     }
     
     public ArrayList<TextoComando> obtenerListaTextoComando(Integer idComando, Integer idIdioma) {
-        ArrayList<TextoComando> listaTextoComando = new ArrayList<>();
-        return listaTextoComando;
+        List resultList = executeHQLQuery(query.concat(" WHERE tc.idComando = ").concat(String.valueOf(idComando)).concat(" and tc.idIdioma = ").concat(String.valueOf(idIdioma)));
+        return (ArrayList<TextoComando>) resultList;
+    }
+    
+    private String query = "from TextoComando tc";
+    
+    private List executeHQLQuery(String hql) {
+        List resultList = null;
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query q = session.createQuery(hql);
+            resultList = q.list();
+            session.getTransaction().commit();
+            session.close();
+        } catch (HibernateException he) {
+            he.printStackTrace();
+        }
+        return resultList;
+    }
+    
+    private Integer save(Serializable serializable) {
+        Integer newId = 0;
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            newId = (int) session.save(serializable);
+            session.getTransaction().commit();
+            session.close();
+        } catch (HibernateException he) {
+            he.printStackTrace();
+        }
+        return newId;
     }
 }

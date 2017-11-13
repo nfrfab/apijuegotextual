@@ -6,7 +6,12 @@
 package dato;
 
 import entidad.Mensaje;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 /**
  *
@@ -18,12 +23,42 @@ public class MensajeDato {
     }
     
     public Integer insertarMensaje(Mensaje mensaje) {
-        Integer idMensaje = -1;
-        return idMensaje;
+        return save(mensaje);
     }
     
     public ArrayList<Mensaje> obtenerListaMensajesPorIdHistoria(Integer idHistoria) {
-        ArrayList<Mensaje> listaMensajes = new ArrayList<>();
-        return listaMensajes;
+        List resultList = executeHQLQuery(query.concat(" WHERE m.idHistoria = ").concat(String.valueOf(idHistoria)));
+        return (ArrayList<Mensaje>) resultList;
+    }
+    
+    private String query = "from Mensaje m";
+    
+    private List executeHQLQuery(String hql) {
+        List resultList = null;
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query q = session.createQuery(hql);
+            resultList = q.list();
+            session.getTransaction().commit();
+            session.close();
+        } catch (HibernateException he) {
+            he.printStackTrace();
+        }
+        return resultList;
+    }
+    
+    private Integer save(Serializable serializable) {
+        Integer newId = 0;
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            newId = (int) session.save(serializable);
+            session.getTransaction().commit();
+            session.close();
+        } catch (HibernateException he) {
+            he.printStackTrace();
+        }
+        return newId;
     }
 }

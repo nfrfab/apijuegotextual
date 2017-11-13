@@ -1,7 +1,6 @@
 package logicajuego;
 
 import entidad.Mensaje;
-import entidad.Tarea;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +26,196 @@ public class NarracionLogica {
             //listaMensajes = new ArrayList<Mensaje>();
             //listaMensajes = new HashMap<Integer, MensajeLogica>();
     }
+    
+    public Boolean agregarDisparadorA_Mensaje_MensajeSiguienteDeMensaje(String codigoMensajeDisparador, String codigoMensajeAfectado, String codigooMensajeSiguiente) {
+        Boolean resultado = false;
+        if (listaMensajes.containsKey(codigoMensajeDisparador)) {
+            if (listaMensajes.containsKey(codigoMensajeAfectado)) {
+                if (listaMensajes.containsKey(codigooMensajeSiguiente)) {
+                    Desencadenador desencadenador = new Desencadenador();
+                    desencadenador.setTipo("mensaje_setMensajeSiguiente");
+                    desencadenador.setCodigoMensaje(codigoMensajeAfectado);
+                    desencadenador.setCodigoMensajeSiguiente(codigooMensajeSiguiente);
+                    MensajeLogica mensajeDisparador = listaMensajes.get(codigoMensajeDisparador);
+                    mensajeDisparador.agregarDesencadenador(desencadenador);
+                    listaMensajes.put(codigoMensajeDisparador, mensajeDisparador);
+                    return true;
+                } else {
+                    ///error
+                }
+            } else {
+                ///error
+            }
+            
+        } else {
+            ///error
+        }
+        return resultado;
+    }
+    
+    public Boolean agregarDisparadorA_Mensaje_MensajeSiguienteDeComando(String codigoMensajeDisparador, String codigoMensajeAfectado, String codigoComandoAfectado, String codigooMensajeSiguiente) {
+        Boolean resultado = false;
+        if (listaMensajes.containsKey(codigoMensajeDisparador)) {
+            if (listaMensajes.containsKey(codigoMensajeAfectado)) {
+                if (listaMensajes.containsKey(codigooMensajeSiguiente)) {
+                    MensajeLogica auxMensaje = listaMensajes.get(codigoMensajeAfectado);
+                    if (auxMensaje.existeComando(codigoComandoAfectado)) {
+                        Desencadenador desencadenador = new Desencadenador();
+                        desencadenador.setTipo("comando_setMensajeSiguiente");
+                        desencadenador.setCodigoMensaje(codigoMensajeAfectado);
+                        desencadenador.setCodigoComando(codigoComandoAfectado);
+                        desencadenador.setCodigoMensajeSiguiente(codigooMensajeSiguiente);
+                        MensajeLogica mensajeDisparador = listaMensajes.get(codigoMensajeDisparador);
+                        mensajeDisparador.agregarDesencadenador(desencadenador);
+                        listaMensajes.put(codigoMensajeDisparador, mensajeDisparador);
+                        return true;
+                    } else {
+                        ///error
+                    }
+                    
+                } else {
+                ///error
+                }
+            } else {
+                ///error
+            }
+            
+        } else {
+            ///error
+        }
+        return resultado;
+    }
+    
+    public Boolean agregarDisparadorA_Mensaje_setEstadoDeComando(String codigoMensajeDisparador, String codigoMensajeAfectado, String codigoComandoAfectado, Boolean activo) {
+        Boolean resultado = false;
+        if (listaMensajes.containsKey(codigoMensajeDisparador)) {
+            if (listaMensajes.containsKey(codigoMensajeAfectado)) {
+                MensajeLogica auxMensaje = listaMensajes.get(codigoMensajeAfectado);
+                if (auxMensaje.existeComando(codigoComandoAfectado)) {
+                    Desencadenador desencadenador = new Desencadenador();
+                    desencadenador.setTipo("comando_modificarEstado");
+                    desencadenador.setCodigoMensaje(codigoMensajeAfectado);
+                    desencadenador.setCodigoComando(codigoComandoAfectado);
+                    desencadenador.setEstado(activo);
+                    MensajeLogica mensajeDisparador = listaMensajes.get(codigoMensajeDisparador);
+                    mensajeDisparador.agregarDesencadenador(desencadenador);
+                    listaMensajes.put(codigoMensajeDisparador, mensajeDisparador);
+                    return true;
+                } else {
+                    ///error
+                }
+            } else {
+                ///error
+            }
+            
+        } else {
+            ///error
+        }
+        return resultado;
+    }
+    
+    //--
+    public Boolean agregarDisparadorA_Comando_MensajeSiguienteDeMensaje(String codigoMensajeDisparador, String codigoComandoDisparador, String codigoMensajeAfectado, String codigooMensajeSiguiente) {
+        Boolean resultado = false;
+        if (listaMensajes.containsKey(codigoMensajeDisparador)) {
+            MensajeLogica auxMensaje = listaMensajes.get(codigoMensajeDisparador);
+            if (auxMensaje.existeComando(codigoComandoDisparador)) {
+                if (listaMensajes.containsKey(codigoMensajeAfectado)) {
+                    if (listaMensajes.containsKey(codigooMensajeSiguiente)) {
+                        Desencadenador desencadenador = new Desencadenador();
+                        desencadenador.setTipo("mensaje_setMensajeSiguiente");
+                        desencadenador.setCodigoMensaje(codigoMensajeAfectado);
+                        desencadenador.setCodigoMensajeSiguiente(codigooMensajeSiguiente);
+                        MensajeLogica mensajeDisparador = listaMensajes.get(codigoMensajeDisparador);
+                        mensajeDisparador.agregarDesencadenadorAComando(codigoComandoDisparador, desencadenador);
+                        listaMensajes.put(codigoMensajeDisparador, mensajeDisparador);
+                        return true;
+                    } else {
+                        ///error
+                    }
+                } else {
+                    ///error
+                }
+            }
+            
+            
+        } else {
+            ///error
+        }
+        return resultado;
+    }
+    
+    public Boolean agregarDisparadorA_Comando_MensajeSiguienteDeComando(String codigoMensajeDisparador, String codigoComandoDisparador, String codigoMensajeAfectado, String codigoComandoAfectado, String codigooMensajeSiguiente) {
+        Boolean resultado = false;
+        if (listaMensajes.containsKey(codigoMensajeDisparador)) {
+            MensajeLogica auxMensajeDisparador = listaMensajes.get(codigoMensajeAfectado);
+            if (auxMensajeDisparador.existeComando(codigoComandoDisparador)) {
+                if (listaMensajes.containsKey(codigoMensajeAfectado)) {
+                    if (listaMensajes.containsKey(codigooMensajeSiguiente)) {
+                        MensajeLogica auxMensaje = listaMensajes.get(codigoMensajeAfectado);
+                        if (auxMensaje.existeComando(codigoComandoAfectado)) {
+                            Desencadenador desencadenador = new Desencadenador();
+                            desencadenador.setTipo("comando_setMensajeSiguiente");
+                            desencadenador.setCodigoMensaje(codigoMensajeAfectado);
+                            desencadenador.setCodigoComando(codigoComandoAfectado);
+                            desencadenador.setCodigoMensajeSiguiente(codigooMensajeSiguiente);
+                            MensajeLogica mensajeDisparador = listaMensajes.get(codigoMensajeDisparador);
+                            mensajeDisparador.agregarDesencadenadorAComando(codigoComandoDisparador, desencadenador);
+                            listaMensajes.put(codigoMensajeDisparador, mensajeDisparador);
+                            return true;
+                        } else {
+                            ///error
+                        }
 
+                    } else {
+                    ///error
+                    }
+                } else {
+                    ///error
+                }
+            } else {
+                //error
+            }
+        } else {
+            ///error
+        }
+        return resultado;
+    }
+
+    public Boolean agregarDisparadorA_Comando_setEstadoDeComando(String codigoMensajeDisparador, String codigoComandoDisparador, String codigoMensajeAfectado, String codigoComandoAfectado, Boolean activo) {
+        Boolean resultado = false;
+        if (listaMensajes.containsKey(codigoMensajeDisparador)) {
+            MensajeLogica auxMensajeDisparador = listaMensajes.get(codigoMensajeAfectado);
+            if (auxMensajeDisparador.existeComando(codigoComandoDisparador)) {
+                if (listaMensajes.containsKey(codigoMensajeAfectado)) {
+                    MensajeLogica auxMensaje = listaMensajes.get(codigoMensajeAfectado);
+                    if (auxMensaje.existeComando(codigoComandoAfectado)) {
+                        Desencadenador desencadenador = new Desencadenador();
+                        desencadenador.setTipo("comando_modificarEstado");
+                        desencadenador.setCodigoMensaje(codigoMensajeAfectado);
+                        desencadenador.setCodigoComando(codigoComandoAfectado);
+                        desencadenador.setEstado(activo);
+                        MensajeLogica mensajeDisparador = listaMensajes.get(codigoMensajeDisparador);
+                        mensajeDisparador.agregarDesencadenadorAComando(codigoComandoDisparador, desencadenador);
+                        listaMensajes.put(codigoMensajeDisparador, mensajeDisparador);
+                        return true;
+                    } else {
+                        ///error
+                    }
+                } else {
+                    ///error
+                }
+            } else {
+                //error
+            }
+            
+            
+        } else {
+            ///error
+        }
+        return resultado;
+    }
+    
     //se utiliza generalmente para mostrar un mensaje y que el indice no se mueva, de tal forma que despues de mostrar el mensaje el mensaje mostrado previamente siga activo
     public void agregarMensajePopUp(String codigoMensaje, String texto) {
 
@@ -108,15 +296,33 @@ public class NarracionLogica {
             */
 
     }
+    
+    public void agregarObjetoXAMensaje(String codigoMensaje, String codigoObjetoX, String nombre, Boolean valorbooleano, Integer valorEntero, String valorString) {
+        ObjetoX objetoX = new ObjetoX();
+        objetoX.setCodigoObjetoX(codigoObjetoX);
+        objetoX.setNombre(nombre);
+        objetoX.setValorBoleano(valorbooleano);
+        objetoX.setValorEntero(valorEntero);
+        objetoX.setValorTexto(valorString);
+        
+        if (listaMensajes.containsKey(codigoMensaje)) {
+            MensajeLogica mensajeAModiicar = listaMensajes.get(codigoMensaje);
+            mensajeAModiicar.agregarObjetoX(objetoX);
+            listaMensajes.put(codigoMensaje, mensajeAModiicar);
+            
+        } else {
+                //mostrar error
+        }
+    }
 
     public void agregarTarea(String codigoMensaje, Integer numeroTarea, String detalleTarea) {
             if (listaMensajes.containsKey(codigoMensaje)) {
-                    MensajeLogica mensaje = listaMensajes.get(codigoMensaje);
-                    mensaje.setNumeroTarea(numeroTarea);
-            mensaje.setObligatorio(true);
-            mensaje.setDetalleTarea(detalleTarea);
-            mensaje.setMensajeMostrado(false);
-            listaMensajes.put(codigoMensaje, mensaje);
+                MensajeLogica mensaje = listaMensajes.get(codigoMensaje);
+                mensaje.setNumeroTarea(numeroTarea);
+                mensaje.setObligatorio(true);
+                mensaje.setDetalleTarea(detalleTarea);
+                mensaje.setMensajeMostrado(false);
+                listaMensajes.put(codigoMensaje, mensaje);
             } else {
                     //mostrar error
             }
@@ -137,8 +343,8 @@ public class NarracionLogica {
 
     }
 
-    public Tarea obtenerPrimerTareaPendiente() {
-        Tarea tarea = new Tarea();
+    public TareaLogica obtenerPrimerTareaPendiente() {
+        TareaLogica tareaLogica = new TareaLogica();
         String codigoMensajeConPrimerTareaPendiente = null;
         int numeroTarea = 1000000;
 
@@ -158,13 +364,13 @@ public class NarracionLogica {
 
                     if (codigoMensajeConPrimerTareaPendiente != null) {
             MensajeLogica mensaje2 = listaMensajes.get(codigoMensajeConPrimerTareaPendiente);
-            tarea.setTareaValida(true);
-            tarea.setNumeroTarea(mensaje2.getNumeroTarea());
-            tarea.setDetalleTarea(mensaje2.getDetalleTarea());
+            tareaLogica.setTareaValida(true);
+            tareaLogica.setNumeroTarea(mensaje2.getNumeroTarea());
+            tareaLogica.setDetalleTarea(mensaje2.getDetalleTarea());
         } else {
-            tarea.setTareaValida(false);
+            tareaLogica.setTareaValida(false);
         }
-        return tarea;
+        return tareaLogica;
 
         /*
         int cantidadMensajes = listaMensajes.size();
@@ -263,10 +469,40 @@ public class NarracionLogica {
             */
     }
 
+    public void setProximoMensajeDeComandoDeMensajeEnLista(String codigoMensaje, String codigoComando, String codigoMensajeProximo) {
+        if (listaMensajes.containsKey(codigoMensaje)) {
+                if (listaMensajes.containsKey(codigoMensajeProximo)) {
+                        MensajeLogica mensaje = listaMensajes.get(codigoMensaje);
+                        mensaje.setCodigoMensajeSiguienteDeComando(codigoComando, codigoMensajeProximo);
+                        listaMensajes.put(codigoMensaje, mensaje);
+                } else {
+                        //mostrar error
+                }
+        } else {
+                //mostrar error
+        }
+
+            
+    }
+    
+    public void setEstadoDeComandoDeMensajeEnLista(String codigoMensaje, String codigoComando, Boolean activo) {
+        if (listaMensajes.containsKey(codigoMensaje)) {
+                MensajeLogica mensaje = listaMensajes.get(codigoMensaje);
+                mensaje.setEstadoDeComando(codigoComando, activo);
+                listaMensajes.put(codigoMensaje, mensaje);
+        } else {
+                //mostrar error
+        }
+
+            
+    }
+    
     //ANALIZAR BIEN LA LOGICA DE ESTE METODO...
     public MensajeLogica getMensaje() {
         MensajeLogica mensaje = listaMensajes.get(codigoMensajeProximo);
         if (mensaje != null) {
+            
+            
             if (mensaje.getMensajePopUp()) {
                 mensaje.setCodigoMensajeSiguiente(this.codigoMensajeProcesandoMensaje);
                 this.mensajeProcesandoRespuesta.setMostrarMensaje(false);//VERIFICAR LOGICA CUANDO SE MUESTRAN LOS MENSAJES, PUEDE SER NECESARIO VOLVER A ACTIVAR
@@ -278,28 +514,70 @@ public class NarracionLogica {
             }
 
             if (!mensaje.getProcesarRespuesta()) {
-                    this.codigoMensajeProximo = mensaje.getCodigoMensajeSiguiente();
+                this.codigoMensajeProximo = mensaje.getCodigoMensajeSiguiente();
+                
             } else {
                 this.mensajeProcesandoRespuesta = mensaje;
                 this.codigoMensajeProcesandoMensaje = this.codigoMensajeProximo;
+                
             }
+            ArrayList<Desencadenador> listaDesencadenador = mensaje.getListaDesencadenador();
+            ejecutarDesencadenador(listaDesencadenador, false);
+            
+            
         }
         
         
 
         return mensaje;
     }
+    
+    private void ejecutarDesencadenadorComando() {
+        ComandoLogica comandoLogica = mensajeProcesandoRespuesta.getComandoValido();
+        ArrayList<Desencadenador> listaDesencadenador = comandoLogica.getListaDesencadenador();
+        ejecutarDesencadenador(listaDesencadenador, true);
+    }
+    
+    private void ejecutarDesencadenador(ArrayList<Desencadenador> listaDesencadenador, Boolean verificarMensajeActual) {
+        for (Desencadenador desencadenador : listaDesencadenador) {
+            String tipo = desencadenador.getTipo();
+            String codigoMensaje = desencadenador.getCodigoMensaje();
+            switch (tipo) {
+                case "mensaje_setMensajeSiguiente":
+                    String codigoMensajeSiguiente = desencadenador.getCodigoMensajeSiguiente();
+                    setProximoMensajeDeMensajeEnLista(codigoMensaje, codigoMensajeSiguiente);
+                    break;
+                case "comando_setMensajeSiguiente":
+                    String codigoComando = desencadenador.getCodigoComando();
+                    String codigoMensajeSiguiente2 = desencadenador.getCodigoMensajeSiguiente();
+                    setProximoMensajeDeComandoDeMensajeEnLista(codigoMensaje, codigoComando, codigoMensajeSiguiente2);
+                    break;
+                case "comando_modificarEstado":
+                    String codigoComando2 = desencadenador.getCodigoComando();
+                    Boolean activo = desencadenador.getEstado();
+                    setEstadoDeComandoDeMensajeEnLista(codigoMensaje, codigoComando2, activo);
+                    break;
+            }
+            if (verificarMensajeActual) {
+                String codigoMensajeProcesando = this.mensajeProcesandoRespuesta.getCodigoMensaje();
+                if (codigoMensaje.equals(codigoMensajeProcesando)) {
+                    this.mensajeProcesandoRespuesta = listaMensajes.get(codigoMensajeProcesando);
+                }
+            }
+        }
+    } 
 
     public boolean procesarTextoComando(String textoComando) {
 
     boolean comandoValido = false;
-            //Mensaje mensaje = MenajeProcesandoMensaje;//listaMensajes.get(indiceMensajeProximo);
-            String auxCodigoMensajeProximo = mensajeProcesandoRespuesta.getCodigoMensajeDeComandoTXT(textoComando);
-            if (auxCodigoMensajeProximo != null) {
-                    this.codigoMensajeProximo = auxCodigoMensajeProximo;
-                    comandoValido = true;
-            }
-            return comandoValido;
+        //Mensaje mensaje = MenajeProcesandoMensaje;//listaMensajes.get(indiceMensajeProximo);
+        String auxCodigoMensajeProximo = mensajeProcesandoRespuesta.getCodigoMensajeDeComandoTXT(textoComando);
+        if (auxCodigoMensajeProximo != null) {
+            ejecutarDesencadenadorComando();
+            this.codigoMensajeProximo = auxCodigoMensajeProximo;
+            comandoValido = true;
+        }
+        return comandoValido;
     }
 
     public Map<String, MensajeLogica> getListaMensajes() {
@@ -311,6 +589,15 @@ public class NarracionLogica {
     public void setListaMensajes(Map<String, MensajeLogica> listaMensajes) {
         this.listaMensajes = listaMensajes;
     }
+
+    public String getCodigoMensajeProximo() {
+        return codigoMensajeProximo;
+    }
+
+    public void setCodigoMensajeProximo(String codigoMensajeProximo) {
+        this.codigoMensajeProximo = codigoMensajeProximo;
+    }
+    
     
     
 	

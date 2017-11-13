@@ -25,8 +25,10 @@ public class ManipulacionDeTextos {
                     cadenaModif += cadena.substring(i, Math.abs(cadena.length()));
                 }
             }
-            
+            return cadenaModif;
+        } else {
+            return cadena;
         }
-        return cadenaModif;
+        
     }
 }

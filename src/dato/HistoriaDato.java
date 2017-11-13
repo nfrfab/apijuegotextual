@@ -13,6 +13,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import utils.AdministradorArchivo;
 
 /**
  *
@@ -20,15 +21,17 @@ import org.hibernate.Session;
  */
 public class HistoriaDato {
     
-    public ArrayList<Mensaje> obtenerListHistoriasTodo() {
-        return (ArrayList<Mensaje>) executeHQLQuery(query);
+    
+    
+    public ArrayList<Historia> obtenerListHistoriasTodo() {
+        return (ArrayList<Historia>) executeHQLQuery(query);
     }
     
     public Integer insertarHistoria(Historia historia) {
         return save(historia);
     }
     
-    private String query = "from historia h";
+    private String query = "from Historia h";
     
     private List executeHQLQuery(String hql) {
         List resultList = null;
@@ -38,6 +41,7 @@ public class HistoriaDato {
             Query q = session.createQuery(hql);
             resultList = q.list();
             session.getTransaction().commit();
+            session.close();
         } catch (HibernateException he) {
             he.printStackTrace();
         }

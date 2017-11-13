@@ -12,9 +12,9 @@ package entidad;
 public class Comando implements java.io.Serializable {
     private Integer idComando;
     private Integer idMensaje;
-    private String codigoComando;
+    private String codigoComando;//lengh 32
     //private Integer idMensajeSiguiente;
-    private String codigoMensajeSiguiente;
+    private String codigoMensajeSiguiente;//lengh 32
 
     public Comando() {
     }

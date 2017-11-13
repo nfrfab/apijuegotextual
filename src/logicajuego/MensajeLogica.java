@@ -9,23 +9,26 @@ public class MensajeLogica {
     private Integer numeroTarea; 
     private String detalleTarea;
 
-	private boolean mostrarMensaje;//permite definir si el texto se debe mostrar, no se debe mostrar el texto si el mensaje anterior activo era del tipo pop up
-	private boolean mensajePopUp;
+    private boolean mostrarMensaje;//permite definir si el texto se debe mostrar, no se debe mostrar el texto si el mensaje anterior activo era del tipo pop up
+    private boolean mensajePopUp;
 
 
-	
-	private boolean procesarRespuesta;
-	//private int indiceMensajeAnterior;///talves no se utilice...
-	private String codigoMensajeSiguiente;
 
-	private String codigoMensaje;
+    private boolean procesarRespuesta;
+    //private int indiceMensajeAnterior;///talves no se utilice...
+    private String codigoMensajeSiguiente;
 
-	//String texto;
-	private ArrayList<String> listaMensajeTexto;
-	private Boolean textoAleatorio;
-	private int indiceTexto;
+    private String codigoMensaje;
 
-	private ArrayList<ComandoLogica> comandos;
+    //String texto;
+    private ArrayList<String> listaMensajeTexto;
+    private Boolean textoAleatorio;
+    private int indiceTexto;
+
+    private ArrayList<ComandoLogica> comandos;
+    private ArrayList<ObjetoX> listaObjetoX;
+    private ArrayList<Desencadenador> listaDesencadenador;
+    private ComandoLogica comandoValido;
 
     public MensajeLogica() {
         this.listaMensajeTexto = new ArrayList<>();
@@ -35,10 +38,17 @@ public class MensajeLogica {
 	this.procesarRespuesta = false;
 	this.codigoMensajeSiguiente = null;
         this.mensajePopUp = false;
+        this.comandos = new ArrayList<ComandoLogica>();
+        this.listaObjetoX = new ArrayList<>();
+        this.listaDesencadenador = new ArrayList<>();
+    }
+
+    public boolean isMensajePopUp() {
+        return mensajePopUp;
     }
 	
-        
-
+    
+    
     public MensajeLogica(String codigoMensaje, String texto, boolean mensajePopUp) {
         listaMensajeTexto = new ArrayList<>();
         this.codigoMensaje = codigoMensaje;
@@ -55,6 +65,61 @@ public class MensajeLogica {
         this.mostrarMensaje = true;
 
         this.comandos = new ArrayList<ComandoLogica>();
+        this.listaObjetoX = new ArrayList<>();
+        this.listaDesencadenador = new ArrayList<>();
+    }
+    
+    public MensajeLogica(String codigoMensaje, String texto, String codigoMensajeSiguiente) {
+        listaMensajeTexto = new ArrayList<>();
+        this.codigoMensaje = codigoMensaje;
+        listaMensajeTexto.add(texto);
+        textoAleatorio = false;
+        indiceTexto = -1;
+
+        this.obligatorio = true;
+        this.procesarRespuesta = false;
+        this.codigoMensajeSiguiente = codigoMensajeSiguiente;
+
+        this.mensajePopUp = false;
+        this.mostrarMensaje = true;
+                
+        this.comandos = new ArrayList<ComandoLogica>();
+        this.listaObjetoX = new ArrayList<>();
+        this.listaObjetoX = new ArrayList<>();
+        this.listaDesencadenador = new ArrayList<>();
+    }
+
+    public MensajeLogica(String codigoMensaje, String texto) {
+        listaMensajeTexto = new ArrayList<>();
+        this.codigoMensaje = codigoMensaje;
+        listaMensajeTexto.add(texto);
+        textoAleatorio = false;
+        indiceTexto = -1;
+
+        this.obligatorio = false;
+        this.procesarRespuesta = false;
+        this.codigoMensajeSiguiente = null;
+
+        this.mensajePopUp = false;
+        this.mostrarMensaje = true;
+                
+        this.comandos = new ArrayList<ComandoLogica>();
+        this.listaObjetoX = new ArrayList<>();
+        this.listaDesencadenador = new ArrayList<>();
+    }
+
+    public ComandoLogica getComandoValido() {
+        return comandoValido;
+    }
+
+    public ArrayList<ObjetoX> getListaObjetoX() {
+        return listaObjetoX;
+    }
+
+    
+    
+    public void agregarDesencadenador(Desencadenador desencadenador) {
+        listaDesencadenador.add(desencadenador);
     }
 
     public void setCodigoMensaje(String codigoMensaje) {
@@ -87,49 +152,19 @@ public class MensajeLogica {
         this.indiceTexto = indiceTexto;
     }
 
+    public void agregarObjetoX(ObjetoX objetoX) {
+        listaObjetoX.add(objetoX);
+    }
+        
+        
     
-        
-        
-	public MensajeLogica(String codigoMensaje, String texto, String codigoMensajeSiguiente) {
-		listaMensajeTexto = new ArrayList<>();
-		this.codigoMensaje = codigoMensaje;
-		listaMensajeTexto.add(texto);
-		textoAleatorio = false;
-		indiceTexto = -1;
-		
-		this.obligatorio = true;
-		this.procesarRespuesta = false;
-		this.codigoMensajeSiguiente = codigoMensajeSiguiente;
 
-		this.mensajePopUp = false;
-        this.mostrarMensaje = true;
-                
-        this.comandos = new ArrayList<ComandoLogica>();
-	}
+    public void agregarComando(ComandoLogica comando) {
+            this.procesarRespuesta = true;
+            this.comandos.add(comando);
 
-	public MensajeLogica(String codigoMensaje, String texto) {
-		listaMensajeTexto = new ArrayList<>();
-		this.codigoMensaje = codigoMensaje;
-		listaMensajeTexto.add(texto);
-		textoAleatorio = false;
-		indiceTexto = -1;
-		
-		this.obligatorio = false;
-		this.procesarRespuesta = false;
-		this.codigoMensajeSiguiente = null;
 
-		this.mensajePopUp = false;
-        this.mostrarMensaje = true;
-                
-        this.comandos = new ArrayList<ComandoLogica>();
-	}
-
-	public void agregarComando(ComandoLogica comando) {
-		this.procesarRespuesta = true;
-		this.comandos.add(comando);
-		
-
-	}
+    }
 
     public Boolean getMensajeMostrado() {
         return mensajeMostrado;
@@ -167,72 +202,146 @@ public class MensajeLogica {
         
         
 
-	public String getMensaje() {
-		String texto;
-		if (textoAleatorio) {
-			texto = listaMensajeTexto.get(0);//REEMPLAZAR PR CODIGO QUE DEVUELVE TEXTO ALEATORIO
-		} else {
-			indiceTexto = indiceTexto + 1;
-			texto = listaMensajeTexto.get(indiceTexto);
-			if ((indiceTexto + 1) >= listaMensajeTexto.size()) {
-				indiceTexto = -1;
-			}
-		}
-		return texto;
-	}
+    public String getMensaje() {
+        String texto;
+        if (textoAleatorio) {
+                texto = listaMensajeTexto.get(0);//REEMPLAZAR PR CODIGO QUE DEVUELVE TEXTO ALEATORIO
+        } else {
+                indiceTexto = indiceTexto + 1;
+                texto = listaMensajeTexto.get(indiceTexto);
+                if ((indiceTexto + 1) >= listaMensajeTexto.size()) {
+                        indiceTexto = -1;
+                }
+        }
+        return texto;
+    }
 
-	public String getCodigoMensaje() {
-		return this.codigoMensaje;
-	}
+    public String getCodigoMensaje() {
+            return this.codigoMensaje;
+    }
 
-	public void setCodigoMensajeSiguiente(String codigoMensajeSiguiente) {
-		this.codigoMensajeSiguiente = codigoMensajeSiguiente;
-	}
+    public void setCodigoMensajeSiguiente(String codigoMensajeSiguiente) {
+            this.codigoMensajeSiguiente = codigoMensajeSiguiente;
+    }
+    
+    public Boolean existeComando(String codigoComando) {
+        Boolean resultado = false;
+        int cantidadComandos = comandos.size();
+        for(int i = 0; i < cantidadComandos; i++) {
+            ComandoLogica comando = comandos.get(i);
+            String codigoComandoaux = comando.getCodigoComando();
+            if (codigoComandoaux.equalsIgnoreCase(codigoComando)) {
+                resultado = true;
+            }
+        }
+        return resultado;
+    }
+    
+    public Boolean setCodigoMensajeSiguienteDeComando(String codigoComando, String codigoMensajeSiguiente) {
+        Boolean resultado = false;
+        int cantidadComandos = comandos.size();
+        for(int i = 0; i < cantidadComandos; i++) {
+            ComandoLogica comando = comandos.get(i);
+            String codigoComandoaux = comando.getCodigoComando();
+            if (codigoComandoaux.equalsIgnoreCase(codigoComando)) {
+                comando.setCodigoMensaje(codigoMensajeSiguiente);
+                comandos.set(i, comando);
+                resultado = true;
+                break;
+            }
+            
 
-	public void setMensajePopUp(boolean mensajePopUp) {
-		this.mensajePopUp = mensajePopUp;
-	}
+        }
+        return resultado;
+    }
+    
+    public Boolean agregarDesencadenadorAComando(String codigoComando, Desencadenador desencadenador) {
+        Boolean resultado = false;
+        int cantidadComandos = comandos.size();
+        for(int i = 0; i < cantidadComandos; i++) {
+            ComandoLogica comando = comandos.get(i);
+            String codigoComandoaux = comando.getCodigoComando();
+            if (codigoComandoaux.equalsIgnoreCase(codigoComando)) {
+                comando.agregarDesencadenador(desencadenador);
+                comandos.set(i, comando);
+                resultado = true;
+                break;
+            }
+            
 
-	public void setMostrarMensaje(boolean mostrarMensaje) {
-		this.mostrarMensaje = mostrarMensaje;
-	}
+        }
+        return resultado;
+    }
+           
+    public Boolean setEstadoDeComando(String codigoComando, Boolean activo) {
+        Boolean resultado = false;
+        int cantidadComandos = comandos.size();
+        for(int i = 0; i < cantidadComandos; i++) {
+            ComandoLogica comando = comandos.get(i);
+            String codigoComandoaux = comando.getCodigoComando();
+            if (codigoComandoaux.equalsIgnoreCase(codigoComando)) {
+                comando.setActivo(activo);
+                comandos.set(i, comando);
+                resultado = true;
+                break;
+            }
+            
 
-	public String getCodigoMensajeSiguiente() {
-		return this.codigoMensajeSiguiente;
-	}
+        }
+        return resultado;
+    }
 
-	public boolean getMensajePopUp() {
-		return this.mensajePopUp;
-	}
+    public ArrayList<Desencadenador> getListaDesencadenador() {
+        return listaDesencadenador;
+    }
+    
+    
 
-	public boolean getProcesarRespuesta() {
-		return this.procesarRespuesta;
-	}
+    public void setMensajePopUp(boolean mensajePopUp) {
+            this.mensajePopUp = mensajePopUp;
+    }
 
-	public boolean getMostrarMensaje() {
-		return this.mostrarMensaje;
-	}
+    public void setMostrarMensaje(boolean mostrarMensaje) {
+            this.mostrarMensaje = mostrarMensaje;
+    }
 
-	public String getCodigoMensajeDeComandoTXT(String textoComando) {
-		String codigoMensaje = null;
-		int cantidadComandos = comandos.size();
-		for(int i = 0; i < cantidadComandos; i++) {
-			ComandoLogica comando = comandos.get(i);
-			if (comando.comandoValido(textoComando)) {
-				codigoMensaje = comando.getCodigoMensaje();
-				break;
-			}
-			/*
-			String auxTextoComando = comando.getComando();
-			if (auxTextoComando.equals(textoComando)) {
-				indiceMensaje = comando.getIndiceMensaje();
-				break;
-			}
-			*/
+    public String getCodigoMensajeSiguiente() {
+            return this.codigoMensajeSiguiente;
+    }
 
-		}
-		return codigoMensaje;
+    public boolean getMensajePopUp() {
+            return this.mensajePopUp;
+    }
 
-	}
+    public boolean getProcesarRespuesta() {
+            return this.procesarRespuesta;
+    }
+
+    public boolean getMostrarMensaje() {
+            return this.mostrarMensaje;
+    }
+
+    public String getCodigoMensajeDeComandoTXT(String textoComando) {
+        String codigoMensaje = null;
+        int cantidadComandos = comandos.size();
+        for(int i = 0; i < cantidadComandos; i++) {
+            ComandoLogica comando = comandos.get(i);
+            if (comando.comandoValido(textoComando)) {
+                comandoValido = comando;
+                codigoMensaje = comando.getCodigoMensaje();
+                break;
+            }
+            /*
+            String auxTextoComando = comando.getComando();
+            if (auxTextoComando.equals(textoComando)) {
+                    indiceMensaje = comando.getIndiceMensaje();
+                    break;
+            }
+            */
+
+        }
+        return codigoMensaje;
+
+    }
 	
 }

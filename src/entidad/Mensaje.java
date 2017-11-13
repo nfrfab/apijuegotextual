@@ -13,11 +13,11 @@ public class Mensaje implements java.io.Serializable {
     private Integer idMensaje;
     private Integer idHistoria;
     //private Integer idMensajeSiguiente;
-    private String codigoMensaje;
+    private String codigoMensaje;//leng 32
     private Boolean obligatorio;
     private Boolean mostrarMensaje;
     private Boolean mensajePopUp;
-    private String codigoMensajeSiguiente;
+    private String codigoMensajeSiguiente;//lengh 32
 
     public Mensaje() {
     }

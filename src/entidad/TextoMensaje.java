@@ -11,9 +11,9 @@ package entidad;
  */
 public class TextoMensaje implements java.io.Serializable{
     private Integer idTextoMensaje;
-    private Integer idioma;
     private Integer idMensaje;
-    private String textoMensaje;
+    private Integer idIdioma;
+    private String textoMensaje;//lengh 1024 privosioriamente
 
     public TextoMensaje() {
     }
@@ -26,12 +26,12 @@ public class TextoMensaje implements java.io.Serializable{
         this.idTextoMensaje = idTextoMensaje;
     }
 
-    public Integer getIdioma() {
-        return idioma;
+    public Integer getIdIdioma() {
+        return idIdioma;
     }
 
-    public void setIdioma(Integer idioma) {
-        this.idioma = idioma;
+    public void setIdIdioma(Integer idioma) {
+        this.idIdioma = idioma;
     }
 
     public Integer getIdMensaje() {
